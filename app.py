@@ -1,3 +1,4 @@
+
 import streamlit as st
 import sqlite3
 import hashlib
@@ -120,7 +121,7 @@ def create_user(username, password):
         conn = get_sqlite_conn()
         cursor = conn.cursor()
         try:
-            cursor.execute("INSERT INTO users (username, password, created_at)", (username, hashed, now))
+            cursor.execute("INSERT INTO users (username, password, created_at) VALUES (?, ?, ?)", (username, hashed, now))
             conn.commit()
             return True
         except sqlite3.IntegrityError:
@@ -411,6 +412,3 @@ else:
         if st.button("피드백 저장하기", type="primary"):
             save_daily_memo(st.session_state["username"], date_str, memo_input)
             st.success("오늘의 피드백이 저장되었습니다!")
-
-
-
